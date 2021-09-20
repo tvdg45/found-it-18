@@ -4,14 +4,9 @@ package apps;
 import configuration.Config;
 import controllers.Control_Load_Game;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 import java.io.IOException;
 
 import java.sql.Connection;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
@@ -40,14 +35,8 @@ public class Load_Game {
             Control_Load_Game.use_connection = use_open_connection;
             Control_Load_Game.game_id = game_id;
             Control_Load_Game.player_session = player_session;
-            
-            if (load_game.equals("Load game")) {
-                
-                return Control_Load_Game.control_search_occupied_game_spaces();
-            } else {
-                
-                return "";
-            }
+			
+			return Control_Load_Game.control_search_occupied_game_spaces();
         } catch (IOException e) {
             
             return "";
