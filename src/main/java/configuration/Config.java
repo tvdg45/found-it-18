@@ -1,11 +1,6 @@
 //Author: Timothy van der Graaff
 package configuration;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,7 +8,11 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class Config {
     
@@ -28,7 +27,7 @@ public class Config {
     
     public static void call_database_information() throws IOException {
         
-        URL url_for_get_request = new URL("https://tds-webhook.herokuapp.com/tds-webhook-ruff-ruff");
+        URL url_for_get_request = new URL("https://tds-webhook.herokuapp.com/tds-webhook-tic-tac-toe-app");
         
         String read_line;
         
@@ -83,49 +82,9 @@ public class Config {
             return connection;
         } catch (ClassNotFoundException | SQLException e) {
             
-            LOGGER.log(Level.INFO, "Unable to connect to the database " + e.getMessage() + " 7 " + database_url + " 6 " + database_username + " 5 " + database_password);
+            LOGGER.log(Level.INFO, "Unable to connect to the database");
             
             return null;
         }
-    }
-    
-    public static ArrayList<String> bad_domain() {
-        
-        ArrayList<String> output = new ArrayList<> ();
-        
-        output.add("ruff-ruff.com");
-        output.add("http://ruff-ruff.com");
-        output.add("http://www.ruff-ruff.com");
-        output.add("https://ruff-ruff.com");
-        
-        return output;
-    }
-    
-    public static String domain() {
-        
-        String output = "";
-        
-        //Define any domain name below.  Your domain name can also have a directory included.
-        //Example: Directory not included - https://www.timothysdigitalsolutions.com or directory included - https://www.timothysdigitalsolutions.com/contact-me
-        String domain = "https://www.ruff-ruff.com";
-        
-        output += domain;
-        
-        return output;
-    }
-    
-    public static String third_party_domain() {
-        
-        String output = "";
-        
-        //Define any domain name below.  Your domain name can also have a directory included.
-        
-        //Example: Directory not included - https://www.timothysdigitalsolutions.com or directory included - https://www.timothysdigitalsolutions.com/contact-me
-        //String third_party_domain = "https://user-account-management-1.herokuapp.com";
-        String third_party_domain = "https://ruff-ruff-1.herokuapp.com";
-        
-        output += third_party_domain;
-        
-        return output;
     }
 }
