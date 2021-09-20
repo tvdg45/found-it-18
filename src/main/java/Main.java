@@ -9,7 +9,7 @@ public class Main {
         Object[] sources = new Object[2];
         
         sources[0] = Directory_Hider.class;
-        sources[1] = apps.Send_Email_To_Vendor.class;
+        sources[1] = apps.Load_Game.class;
 		
         SpringApplication.run(sources, args);
     }
