@@ -27,6 +27,8 @@ public class Load_Game {
     ) {
         
         Connection use_open_connection;
+		
+		String return_string = "";
         
         try {
             
@@ -36,11 +38,19 @@ public class Load_Game {
             Control_Load_Game.game_id = game_id;
             Control_Load_Game.player_session = player_session;
 			
-			return Control_Load_Game.control_search_occupied_game_spaces();
+			return_string += Control_Load_Game.control_search_occupied_game_spaces();
+			
+            try {
+                
+                use_open_connection.close();
+            } catch (Exception e) {
+            }
         } catch (IOException e) {
             
-            return "";
+            return_string += "";
         }
+		
+		return return_string;
     }
 	
     public static void main(String[] args) throws Exception, IOException {
