@@ -42,7 +42,7 @@ public class Add_Game {
             
             use_open_connection = Config.openConnection();
             
-            Control_Change_Shopping_Cart_Items.use_connection = use_open_connection;
+            Control_Save_Game.use_connection = use_open_connection;
             Control_Save_Game.player_full_name = player_full_name;
             Control_Save_Game.player_session = player_session;
             Control_Save_Game.date_received = String.valueOf(localDate);
