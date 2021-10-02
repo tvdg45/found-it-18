@@ -11,6 +11,19 @@ public class Control_Load_Game extends models.Load_Game {
     public static String game_id;
     public static String player_session;
     
+    public static String control_search_available_games() {
+        
+        String output;
+        
+        connection = use_connection;
+        
+        Show_Loaded_Game.available_games = search_available_games();
+        
+        output = Show_Loaded_Game.show_available_games();
+        
+        return output;
+    }
+    
     public static String control_search_occupied_game_spaces() {
         
         String output;
