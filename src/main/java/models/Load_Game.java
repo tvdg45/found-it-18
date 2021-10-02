@@ -71,8 +71,10 @@ public abstract class Load_Game {
             
             PreparedStatement create_statement = connection.prepareStatement(
                     
-                    "CREATE TABLE company_tic_tac_toe_players (row_id INT NOT NULL, player_session TEXT NOT NULL, " +
-                            "game_id TEXT NOT NULL, date_received TEXT NOT NULL, time_received TEXT NOT NULL, " +
+                    "CREATE TABLE company_tic_tac_toe_players (row_id INT NOT NULL, " +
+                            "player_full_name TEXT NOT NULL, player_session TEXT NOT NULL, " +
+                            "player_chosen_game_piece TEXT NOT NULL, game_id TEXT NOT NULL, " +
+                            "date_received TEXT NOT NULL, time_received TEXT NOT NULL, " +
                             "PRIMARY KEY (row_id)) ENGINE = MYISAM;");
             
             create_statement.execute();
@@ -90,9 +92,10 @@ public abstract class Load_Game {
             
             PreparedStatement create_statement = connection.prepareStatement(
                     
-                    "CREATE TABLE company_game_spaces (row_id INT NOT NULL, game_id " +
-                            "TEXT NOT NULL, player_full_name TEXT NOT NULL, player_chosen_game_piece TEXT NOT NULL, player_chosen_game_space " +
-                            "TEXT NOT NULL, player_session TEXT NOT NULL, date_received TEXT NOT NULL, time_received TEXT NOT NULL, " +
+                    "CREATE TABLE company_game_spaces (row_id INT NOT NULL, game_id TEXT NOT NULL, " +
+                            "player_full_name TEXT NOT NULL, player_chosen_game_piece TEXT NOT NULL, " +
+                            "player_chosen_game_space TEXT NOT NULL, player_session TEXT NOT NULL, " +
+                            "date_received TEXT NOT NULL, time_received TEXT NOT NULL, " +
                             "PRIMARY KEY (row_id)) ENGINE = MYISAM;");
             
             create_statement.execute();
@@ -104,7 +107,7 @@ public abstract class Load_Game {
         }
     }
     
-    protected static ArrayList<String> search_games() {
+    protected static ArrayList<String> search_available_games() {
         
         ArrayList<String> output = new ArrayList<>();
         
@@ -129,7 +132,7 @@ public abstract class Load_Game {
             
             if (games_count == 0) {
                 
-                output.add("no games");
+                output.add("no available games");
             }
         } catch (SQLException e) {
             
