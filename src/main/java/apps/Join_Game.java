@@ -29,7 +29,7 @@ public class Join_Game {
             @RequestParam(value = "player_full_name", defaultValue = "") String player_full_name,
             @RequestParam(value = "player_session", defaultValue = "") String player_session,
             @RequestParam(value = "game_id", defaultValue = "") String game_id,
-            @RequestParam(value = "add_game", defaultValue = "") String add_game
+            @RequestParam(value = "join_game", defaultValue = "") String join_game
     ) {
         
         Connection use_open_connection;
