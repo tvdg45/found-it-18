@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.*;
 public class Search_Available_Games {
     
     @RequestMapping(method = RequestMethod.POST)
-    String home() {
+    String home(
+			@RequestParam(value = "player_session", defaultValue = "") String player_session
+	) {
         
         Connection use_open_connection;
       
@@ -31,6 +33,7 @@ public class Search_Available_Games {
             use_open_connection = Config.openConnection();
             
             Control_Load_Game.use_connection = use_open_connection;
+			Control_Load_Game.player_session = player_session;
           
             return_string += Control_Load_Game.control_search_available_games();
 			
