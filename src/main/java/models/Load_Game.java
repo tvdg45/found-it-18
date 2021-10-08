@@ -107,6 +107,48 @@ public abstract class Load_Game {
         }
     }
     
+    protected static ArrayList<String> search_current_game() {
+        
+        ArrayList<String> output = new ArrayList<>();
+        
+        int games_count = 0;
+        
+        PreparedStatement select_statement;
+        ResultSet select_results;
+        
+        try {
+            
+            select_statement = connection.prepareStatement("SELECT game_id FROM company_tic_tac_toe_players " +
+                    "WHERE player_session = ? ORDER BY row_id ASC LIMIT 1");
+            
+            select_statement.setString(1, get_player_session());
+            
+            select_results = select_statement.executeQuery();
+            
+            while (select_results.next()) {
+                
+                output.add(select_results.getString(1));
+                
+                games_count++;
+            }
+            
+            if (games_count == 0) {
+                
+                output.add("no occupied games");
+            }
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_games' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_games_table();
+            
+            output.add("fail");
+        }
+        
+        return output;
+    }
+    
     protected static ArrayList<String> search_available_games() {
         
         ArrayList<String> output = new ArrayList<>();
