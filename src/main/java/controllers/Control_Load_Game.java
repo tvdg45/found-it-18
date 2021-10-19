@@ -27,9 +27,11 @@ public class Control_Load_Game extends models.Load_Game {
         if (!(search_current_game.get(0).equals("no occupied games")
                 || search_current_game.get(0).equals("fail"))) {
             
+            Show_Loaded_Game.player_session_status = "session found";
             Show_Loaded_Game.available_games = search_current_game;
         } else {
             
+            Show_Loaded_Game.player_session_status = "no session found";
             Show_Loaded_Game.available_games = search_available_games();
         }
         
