@@ -7,6 +7,7 @@ import utilities.Find_and_replace;
 public class Show_Loaded_Game {
 
     //global variables
+    public static String player_session_status;
     public static ArrayList<String> available_games = new ArrayList<>();
     public static ArrayList<ArrayList<String>> occupied_game_spaces = new ArrayList<>();
     
@@ -35,7 +36,8 @@ public class Show_Loaded_Game {
         replace.add("");
         replace.add("");
         
-        output += "[";
+        output += "{session_status: \"" + player_session_status + "\", ";
+        output += "available_games: [";
         
         for (int i = 0; i < available_games.size(); i++) {
             
@@ -44,7 +46,7 @@ public class Show_Loaded_Game {
                     "\"}, ";
         }
         
-        output += "{}]";
+        output += "{}]}";
         
         output = output.replace(", {}", ""); 
         
