@@ -138,10 +138,10 @@ public abstract class Load_Game {
             }
         } catch (SQLException e) {
             
-            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_games' " +
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_players' " +
                     "table is corrupt or does not exist");
             
-            create_new_tic_tac_toe_games_table();
+            create_new_tic_tac_toe_players_table();
             
             output.add("fail");
         }
