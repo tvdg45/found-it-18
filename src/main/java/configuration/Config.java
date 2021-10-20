@@ -62,7 +62,8 @@ public class Config {
                     database_port = credentials[3];
                     database_name = credentials[4];
                     
-                    database_url = "jdbc:mysql://" + database_server + ":" + database_port + "/" + database_name;
+                    database_url = "jdbc:mysql://" + database_server + ":" + database_port + "/" + database_name
+                            + "?autoReconnect=true&useSSL=false";
                 } catch (Exception e) {
                 }
             }
