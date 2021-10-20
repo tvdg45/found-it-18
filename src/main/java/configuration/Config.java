@@ -62,8 +62,7 @@ public class Config {
                     database_port = credentials[3];
                     database_name = credentials[4];
                     
-					database_url = "jdbc:mysql://82.163.176.10:3306/timothys_digital_solutions_company_website";
-                    //database_url = "jdbc:mysql://" + database_server + ":" + database_port + "/" + database_name;
+                    database_url = "jdbc:mysql://" + database_server + ":" + database_port + "/" + database_name;
                 } catch (Exception e) {
                 }
             }
@@ -78,7 +77,7 @@ public class Config {
             
             call_database_information();
             
-            Connection connection = DriverManager.getConnection(database_url, "timothys_tim", "ranger12");
+            Connection connection = DriverManager.getConnection(database_url, database_username, database_password);
             
             return connection;
         } catch (ClassNotFoundException | SQLException e) {
