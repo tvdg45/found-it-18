@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/search-available-games")
 public class Search_Available_Games {
     
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.GET)
     String home(
 			@RequestParam(value = "player_session", defaultValue = "") String player_session
 	) {
