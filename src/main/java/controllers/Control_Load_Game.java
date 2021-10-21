@@ -20,7 +20,7 @@ public class Control_Load_Game extends models.Load_Game {
         
         connection = use_connection;
         
-        /*set_player_session(player_session);
+        set_player_session(player_session);
         
         search_current_game = search_current_game();
         
@@ -29,11 +29,11 @@ public class Control_Load_Game extends models.Load_Game {
             
             Show_Loaded_Game.player_session_status = "session found";
             Show_Loaded_Game.available_games = search_current_game;
-        } else {*/
+        } else {
             
             Show_Loaded_Game.player_session_status = "no session found";
             Show_Loaded_Game.available_games = search_available_games();
-        /*}*/
+        }
         
         output = Show_Loaded_Game.show_available_games();
         
