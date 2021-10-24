@@ -36,7 +36,7 @@ public class Show_Loaded_Game {
         replace.add("");
         replace.add("");
         
-        output += "{\"session_status\": \"[{" + player_session_status + "}]\", ";
+        output += "{\"session_status\": [{\"" + player_session_status + "\"}], ";
         output += "\"available_games\": [";
         
         for (int i = 0; i < available_games.size(); i++) {
