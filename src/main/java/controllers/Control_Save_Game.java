@@ -37,6 +37,7 @@ public class Control_Save_Game extends models.Save_Game {
                 
                 set_player_full_name(player_full_name);
                 set_player_session(player_session);
+                set_player_chosen_game_piece(player_chosen_game_piece);
                 
                 if (add_player().equals("success")) {
                     
@@ -73,6 +74,7 @@ public class Control_Save_Game extends models.Save_Game {
                     
                     set_player_full_name(player_full_name);
                     set_player_session(player_session);
+                    set_player_chosen_game_piece(player_chosen_game_piece);
                     set_date_received(date_received);
                     set_time_received(time_received);
                     
