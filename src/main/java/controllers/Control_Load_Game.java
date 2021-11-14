@@ -40,6 +40,27 @@ public class Control_Load_Game extends models.Load_Game {
         return output;
     }
     
+    public static String control_search_other_player() {
+        
+        String output;
+        
+        connection = use_connection;
+        
+        set_game_id(game_id);
+        
+        if (!(both_players_selected())) {
+            
+            output = "both players selected";
+        } else {
+            
+            Show_Loaded_Game.other_player = search_other_player();
+            
+            output = Show_Loaded_Game.show_other_player();
+        }
+        
+        return output;
+    }
+    
     public static String control_search_occupied_game_spaces() {
         
         String output;
