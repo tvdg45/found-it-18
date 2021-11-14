@@ -14,6 +14,7 @@ public class Main {
 		sources[3] = apps.Join_Game.class;
         sources[4] = apps.Load_Game.class;
 		sources[5] = apps.Search_Available_Games.class;
+		sources[6] = apps.Search_Other_Player.class;
 		
         SpringApplication.run(sources, args);
     }
