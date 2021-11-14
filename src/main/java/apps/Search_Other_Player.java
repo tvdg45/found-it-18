@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @EnableAutoConfiguration
-@RequestMapping("/search-available-games")
-public class Search_Available_Games {
+@RequestMapping("/search-other-player")
+public class Search_Other_Player {
     
     @RequestMapping(method = RequestMethod.POST)
     String home(
-			@RequestParam(value = "player_session", defaultValue = "") String player_session
+			@RequestParam(value = "game_id", defaultValue = "") String game_id
 	) {
         
         Connection use_open_connection;
@@ -33,9 +33,9 @@ public class Search_Available_Games {
             use_open_connection = Config.openConnection();
             
             Control_Load_Game.use_connection = use_open_connection;
-			Control_Load_Game.player_session = player_session;
+			Control_Load_Game.game_id = game_id;
           
-            return_string += Control_Load_Game.control_search_available_games();
+            return_string += Control_Load_Game.control_search_other_player();
 			
             try {
                 
@@ -52,6 +52,6 @@ public class Search_Available_Games {
 	
     public static void main(String[] args) throws Exception, IOException {
 		
-        SpringApplication.run(Search_Available_Games.class, args);
+        SpringApplication.run(Search_Other_Player.class, args);
     }
 }
