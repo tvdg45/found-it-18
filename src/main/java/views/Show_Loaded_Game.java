@@ -9,6 +9,7 @@ public class Show_Loaded_Game {
     //global variables
     public static String player_session_status;
     public static ArrayList<String> available_games = new ArrayList<>();
+    public static ArrayList<ArrayList<String>> other_player = new ArrayList<>();
     public static ArrayList<ArrayList<String>> occupied_game_spaces = new ArrayList<>();
     
     public static String show_available_games() {
@@ -47,6 +48,49 @@ public class Show_Loaded_Game {
         }
         
         output += "{}]}";
+        
+        output = output.replace(", {}", ""); 
+        
+        return output;
+    }
+    
+    public static String show_other_player() {
+        
+        String output = "";
+        
+        ArrayList<String> find = new ArrayList<>();
+        ArrayList<String> replace = new ArrayList<>();
+        
+        find.add("<script");
+        find.add("<style");
+        find.add("\"");
+        find.add("'");
+        find.add("<br />");
+        find.add("<br>");
+        find.add("<div>");
+        find.add("</div>");
+        
+        replace.add("&lt;script");
+        replace.add("&lt;style");
+        replace.add("&quot;");
+        replace.add("&apos;");
+        replace.add(" ");
+        replace.add("");
+        replace.add("");
+        replace.add("");
+        
+        output += "[";
+        
+        for (int i = 0; i < other_player.get(0).size(); i++) {
+            
+            output += "{\"player_full_name\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(other_player.get(0).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\", \"player_chosen_game_piece\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(other_player.get(1).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\"}, ";
+        }
+        
+        output += "{}]";
         
         output = output.replace(", {}", ""); 
         
