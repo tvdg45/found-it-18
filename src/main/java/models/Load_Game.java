@@ -187,7 +187,104 @@ public abstract class Load_Game {
         }
         
         return output;
-    }    
+    }
+    
+    //Check if both players have joined a game.  The maximum is two.
+    protected static boolean both_players_selected() {
+        
+        boolean output;
+        
+        int players_selected_count = 0;
+        
+        PreparedStatement select_statement;
+        ResultSet select_results;
+        
+        try {
+            
+            select_statement = connection.prepareStatement("SELECT row_id FROM company_tic_tac_toe_players " +
+                    "WHERE game_id = ? ORDER BY row_id ASC");
+            
+            select_statement.setString(1, String.valueOf(get_game_id()));
+            
+            select_results = select_statement.executeQuery();
+            
+            while (select_results.next()) {
+                
+                players_selected_count++;
+            }
+            
+            if (players_selected_count >= 2) {
+                
+                output = true;
+            } else {
+                
+                output = false;
+            }
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_players' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_players_table();
+            
+            output = true;
+        }
+        
+        return output;
+    }
+    
+    //When joining a game a potential player should be able to see whom he/she would
+    //be playing against.
+    protected static ArrayList<ArrayList<String>> search_other_player() {
+        
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
+        
+        ArrayList<String> player_full_name = new ArrayList<>();
+        ArrayList<String> player_chosen_game_piece = new ArrayList<>();
+        
+        int other_player_count = 0;
+        
+        PreparedStatement select_statement;
+        ResultSet select_results;
+        
+        try {
+            
+            select_statement = connection.prepareStatement("SELECT player_full_name, player_chosen_game_piece " +
+                    "FROM company_tic_tac_toe_players WHERE game_id = ? ORDER BY row_id DESC LIMIT 1");
+            
+            select_statement.setString(1, get_game_id());
+            
+            select_results = select_statement.executeQuery();
+            
+            while (select_results.next()) {
+                
+                player_full_name.add(select_results.getString(1));
+                player_chosen_game_piece.add(select_results.getString(2));
+                
+                other_player_count++;
+            }
+            
+            if (other_player_count == 0) {
+                
+                player_full_name.add("no other player");
+                player_chosen_game_piece.add("no other player");
+            }
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_players' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_players_table();
+            
+            player_full_name.add("fail");
+            player_chosen_game_piece.add("fail");
+        }
+        
+        output.add(player_full_name);
+        output.add(player_chosen_game_piece);
+        
+        return output;
+    }
     
     protected static boolean is_game_accessible() {
         
