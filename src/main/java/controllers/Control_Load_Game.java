@@ -48,7 +48,7 @@ public class Control_Load_Game extends models.Load_Game {
         
         set_game_id(game_id);
         
-        if (!(both_players_selected())) {
+        if (both_players_selected()) {
             
             output = "both players selected";
         } else {
