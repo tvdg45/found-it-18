@@ -19,8 +19,10 @@ public abstract class Save_Game {
     
     //global variables
     private static int game_id;
+    private static int player_id;
     private static String player_full_name;
     private static String player_chosen_game_piece;
+    private static String player_has_turn;
     private static String player_chosen_game_space;
     private static String player_session;
     private static String date_received;
@@ -32,6 +34,11 @@ public abstract class Save_Game {
         game_id = this_game_id;
     }
     
+    protected static void set_player_id(int this_player_id) {
+        
+        player_id = this_player_id;
+    }
+    
     protected static void set_player_full_name(String this_player_full_name) {
         
         player_full_name = this_player_full_name;
@@ -40,6 +47,11 @@ public abstract class Save_Game {
     protected static void set_player_chosen_game_piece(String this_player_chosen_game_piece) {
         
         player_chosen_game_piece = this_player_chosen_game_piece;
+    }
+    
+    protected static void set_player_has_turn(String this_player_has_turn) {
+        
+        player_has_turn = this_player_has_turn;
     }
     
     protected static void set_player_chosen_game_space(String this_player_chosen_game_space) {
@@ -68,6 +80,11 @@ public abstract class Save_Game {
         return game_id;
     }
     
+    private static int get_player_id() {
+        
+        return player_id;
+    }
+    
     private static String get_player_full_name() {
         
         return player_full_name;
@@ -76,6 +93,11 @@ public abstract class Save_Game {
     protected static String get_player_chosen_game_piece() {
         
         return player_chosen_game_piece;
+    }
+    
+    protected static String get_player_has_turn() {
+        
+        return player_has_turn;
     }
     
     protected static String get_player_chosen_game_space() {
@@ -132,7 +154,7 @@ public abstract class Save_Game {
         return output + 1;
     }
     
-    private static int generate_tic_tac_toe_players_id() {
+    protected static int generate_tic_tac_toe_players_id() {
         
         int output;
         
@@ -140,6 +162,36 @@ public abstract class Save_Game {
             
             PreparedStatement prepared_statement = connection.prepareStatement("SELECT row_id FROM " +
                     "company_tic_tac_toe_players ORDER BY row_id DESC LIMIT 1");
+            
+            ResultSet select_results = prepared_statement.executeQuery();
+            
+            select_results.last();
+            
+            if (select_results.getRow() > 0) {
+               
+                output = select_results.getInt(1);
+            } else {
+                
+                output = 0;
+            }
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "{0}", e);
+            
+            output = 0;
+        }
+        
+        return output + 1;
+    }
+    
+    protected static int generate_tic_tac_toe_player_turns_id() {
+        
+        int output;
+        
+        try {
+            
+            PreparedStatement prepared_statement = connection.prepareStatement("SELECT row_id FROM " +
+                    "company_tic_tac_toe_player_turns ORDER BY row_id DESC LIMIT 1");
             
             ResultSet select_results = prepared_statement.executeQuery();
             
@@ -227,6 +279,26 @@ public abstract class Save_Game {
         } catch (SQLException e) {
 
             LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_players' " +
+                    "table was not created because it already exists.  " +
+                    "This is not necessarily an error.");
+        }
+    }
+    
+    private static void create_new_tic_tac_toe_player_turns_table() {
+        
+        try {
+            
+            PreparedStatement create_statement = connection.prepareStatement(
+                    
+                    "CREATE TABLE company_tic_tac_toe_player_turns (row_id INT NOT NULL, " +
+                            "player_id TEXT NOT NULL, game_id TEXT NOT NULL, player_has_turn TEXT NOT NULL, " +
+                            "date_received TEXT NOT NULL, time_received TEXT NOT NULL, " +
+                            "PRIMARY KEY (row_id)) ENGINE = MYISAM;");
+            
+            create_statement.execute();
+        } catch (SQLException e) {
+
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_player_turns' " +
                     "table was not created because it already exists.  " +
                     "This is not necessarily an error.");
         }
@@ -360,6 +432,115 @@ public abstract class Save_Game {
                     "table is corrupt or does not exist");
             
             create_new_tic_tac_toe_players_table();
+            
+            output = "fail";
+        }
+        
+        return output;
+    }
+    
+    protected static String add_player_turn() {
+        
+        String output;
+        
+        try {
+            
+            PreparedStatement insert_statement = connection.prepareStatement("INSERT INTO " +
+                    "company_tic_tac_toe_player_turns (row_id, player_id, game_id, player_has_turn, date_received, time_received) " +
+                    "VALUES(?, ?, ?, ?, ?, ?)");
+            
+            insert_statement.setInt(1, generate_tic_tac_toe_player_turns_id());
+            insert_statement.setString(2, String.valueOf(get_player_id()));
+            insert_statement.setString(3, String.valueOf(get_game_id()));
+            insert_statement.setString(3, get_player_has_turn());
+            insert_statement.setString(5, get_date_received());
+            insert_statement.setString(6, get_time_received());
+            
+            insert_statement.addBatch();
+            
+            insert_statement.executeBatch();
+            
+            output = "success";
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_player_turns' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_player_turns_table();
+            
+            output = "fail";
+        }
+        
+        return output;
+    }
+    
+    protected static int search_player_id() {
+        
+        int output = 0;
+        
+        int players_selected_count = 0;
+        
+        PreparedStatement select_statement;
+        ResultSet select_results;
+        
+        try {
+            
+            select_statement = connection.prepareStatement("SELECT row_id FROM company_tic_tac_toe_players " +
+                    "WHERE game_id = ? AND player_chosen_game_piece = ? " +
+                    "ORDER BY row_id ASC LIMIT 1");
+            
+            select_statement.setString(1, String.valueOf(get_game_id()));
+            select_statement.setString(2, get_player_chosen_game_piece());
+            
+            select_results = select_statement.executeQuery();
+            
+            while (select_results.next()) {
+                
+                output = select_results.getInt(1);
+                
+                players_selected_count++;
+            }
+            
+            if (players_selected_count == 0) {
+                
+                output = 0;
+            }
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_players' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_players_table();
+            
+            output = 0;
+        }
+        
+        return output;
+    }
+    
+    protected static String change_player_has_turn_status() {
+        
+        String output;
+        
+        try {
+            
+            PreparedStatement update_statement = connection.prepareStatement("UPDATE " +
+                    "company_tic_tac_toe_player_turns SET player_has_turn = ? WHERE player_id = ?");
+            
+            update_statement.setString(1, get_player_has_turn());
+            update_statement.setString(2, String.valueOf(get_player_id()));
+            
+            update_statement.addBatch();
+            
+            update_statement.executeBatch();
+            
+            output = "success";
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_player_turns' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_player_turns_table();
             
             output = "fail";
         }
