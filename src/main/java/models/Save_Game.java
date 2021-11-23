@@ -452,7 +452,7 @@ public abstract class Save_Game {
             insert_statement.setInt(1, generate_tic_tac_toe_player_turns_id());
             insert_statement.setString(2, String.valueOf(get_player_id()));
             insert_statement.setString(3, String.valueOf(get_game_id()));
-            insert_statement.setString(3, get_player_has_turn());
+            insert_statement.setString(4, get_player_has_turn());
             insert_statement.setString(5, get_date_received());
             insert_statement.setString(6, get_time_received());
             
