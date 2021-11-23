@@ -11,6 +11,7 @@ public class Control_Save_Game extends models.Save_Game {
     public static Connection use_connection;
     public static String game_id;
     public static String player_full_name;
+    public static String starting_player_game_piece;
     public static String player_chosen_game_piece;
     public static String player_chosen_game_space;
     public static String player_session;
@@ -35,13 +36,22 @@ public class Control_Save_Game extends models.Save_Game {
             
             if (add_game().equals("success")) {
                 
+                set_player_id(generate_tic_tac_toe_players_id());
                 set_player_full_name(player_full_name);
                 set_player_session(player_session);
                 set_player_chosen_game_piece(player_chosen_game_piece);
                 
                 if (add_player().equals("success")) {
                     
-                    output = "success";
+                    set_player_has_turn("no");
+                    
+                    if (add_player_turn().equals("success")) {
+                        
+                        output = "success";
+                    } else {
+                        
+                        output = "fail";
+                    }                    
                 } else {
                     
                     output = "fail";
@@ -58,6 +68,7 @@ public class Control_Save_Game extends models.Save_Game {
     public static String control_join_game() {
         
         String output = "";
+        int search_player_id;
         
         if (join_game.equals("Join game")) {
             
@@ -72,6 +83,7 @@ public class Control_Save_Game extends models.Save_Game {
                     output = "both players selected";
                 } else {
                     
+                    set_player_id(generate_tic_tac_toe_players_id());
                     set_player_full_name(player_full_name);
                     set_player_session(player_session);
                     set_player_chosen_game_piece(player_chosen_game_piece);
@@ -80,7 +92,34 @@ public class Control_Save_Game extends models.Save_Game {
                     
                     if (add_player().equals("success")) {
                         
-                        output = "success";
+                        set_player_has_turn("no");
+                        
+                        if (add_player_turn().equals("success")) {
+                            
+                            set_player_chosen_game_piece(starting_player_game_piece);
+                            
+                            search_player_id = search_player_id();
+                            
+                            if (search_player_id != 0) {
+                                
+                                set_player_id(search_player_id);
+                                set_player_has_turn("yes");
+                                
+                                if (change_player_has_turn_status().equals("success")) {
+                                    
+                                    output = "success";
+                                } else {
+                                    
+                                    output = "fail";
+                                }
+                            } else {
+                                
+                                output = "fail";
+                            }
+                        } else {
+                            
+                            output = "fail";
+                        }
                     } else {
                         
                         output = "fail";
