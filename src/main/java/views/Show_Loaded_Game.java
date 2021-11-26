@@ -4,7 +4,12 @@ package views;
 import java.util.ArrayList;
 import utilities.Find_and_replace;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Show_Loaded_Game {
+    
+    private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     //global variables
     public static String player_session_status;
@@ -57,6 +62,8 @@ public class Show_Loaded_Game {
                         output += "{\"row_id\": \"" +
                                 Find_and_replace.find_and_replace(find, replace, String.valueOf(available_games.get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
                                 "\"}, ";
+                        
+                        LOGGER.log(Level.INFO, "'{'\"row_id\": \"{0}\"'}', ", Find_and_replace.find_and_replace(find, replace, String.valueOf(available_games.get(i)).replace("<", "&lt;").replace(">", "&gt;")));
                     }
                 }
             }
