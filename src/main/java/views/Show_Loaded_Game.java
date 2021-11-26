@@ -56,19 +56,16 @@ public class Show_Loaded_Game {
                 if (available_games.get(i).equals(all_players.get(j))) {
                     
                     players_per_game++;
-                    
-                    if (players_per_game == 1) {
-                        
-                        output += "{\"row_id\": \"" +
-                                Find_and_replace.find_and_replace(find, replace, String.valueOf(available_games.get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
-                                "\"}, ";
-                        
-                        LOGGER.log(Level.INFO, "'{'\"row_id\": \"{0}\"'}', ", Find_and_replace.find_and_replace(find, replace, String.valueOf(available_games.get(i)).replace("<", "&lt;").replace(">", "&gt;")));
-                    }
                 }
             }
             
             if (players_per_game == 1) {
+                
+                output += "{\"row_id\": \"" +
+                        Find_and_replace.find_and_replace(find, replace, String.valueOf(available_games.get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                        "\"}, ";
+                
+                LOGGER.log(Level.INFO, "'{'\"row_id\": \"{0}\"'}', ", Find_and_replace.find_and_replace(find, replace, String.valueOf(available_games.get(i)).replace("<", "&lt;").replace(">", "&gt;")));
                 
                 available_games_count++;
             }
