@@ -9,6 +9,7 @@ public class Show_Loaded_Game {
     //global variables
     public static String player_session_status;
     public static ArrayList<String> available_games = new ArrayList<>();
+    public static ArrayList<String> all_players = new ArrayList<>();
     public static ArrayList<ArrayList<String>> other_player = new ArrayList<>();
     public static ArrayList<ArrayList<String>> occupied_game_spaces = new ArrayList<>();
     
@@ -18,6 +19,9 @@ public class Show_Loaded_Game {
         
         ArrayList<String> find = new ArrayList<>();
         ArrayList<String> replace = new ArrayList<>();
+        
+        int players_per_game = 0;
+        int available_games_count = 0;
         
         find.add("<script");
         find.add("<style");
@@ -42,9 +46,29 @@ public class Show_Loaded_Game {
         
         for (int i = 0; i < available_games.size(); i++) {
             
-            output += "{\"row_id\": \"" +
-                    Find_and_replace.find_and_replace(find, replace, String.valueOf(available_games.get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
-                    "\"}, ";
+            for (int j = 0; j < all_players.size(); j++) {
+                
+                if (available_games.get(i).equals(all_players.get(j))) {
+                    
+                    output += "{\"row_id\": \"" +
+                            Find_and_replace.find_and_replace(find, replace, String.valueOf(available_games.get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                            "\"}, ";
+                    
+                    players_per_game++;
+                }
+            }
+            
+            if (players_per_game < 2) {
+                
+                available_games_count++;
+            }
+            
+            players_per_game = 0;
+        }
+        
+        if (available_games_count == 0) {
+            
+            output = "{\"row_id\": \"no available games\"}, ";
         }
         
         output += "{}]}";
