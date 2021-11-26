@@ -50,15 +50,18 @@ public class Show_Loaded_Game {
                 
                 if (available_games.get(i).equals(all_players.get(j))) {
                     
-                    output += "{\"row_id\": \"" +
-                            Find_and_replace.find_and_replace(find, replace, String.valueOf(available_games.get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
-                            "\"}, ";
-                    
                     players_per_game++;
+                    
+                    if (players_per_game == 1) {
+                        
+                        output += "{\"row_id\": \"" +
+                                Find_and_replace.find_and_replace(find, replace, String.valueOf(available_games.get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                                "\"}, ";
+                    }
                 }
             }
             
-            if (players_per_game < 2) {
+            if (players_per_game == 1) {
                 
                 available_games_count++;
             }
