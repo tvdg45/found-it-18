@@ -33,6 +33,7 @@ public class Control_Load_Game extends models.Load_Game {
             
             Show_Loaded_Game.player_session_status = "no session found";
             Show_Loaded_Game.available_games = search_available_games();
+            Show_Loaded_Game.all_players = search_all_players();
         }
         
         output = Show_Loaded_Game.show_available_games();
