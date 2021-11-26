@@ -68,7 +68,7 @@ public class Show_Loaded_Game {
         
         if (available_games_count == 0) {
             
-            output = "{\"row_id\": \"no available games\"}, ";
+            output += "{\"row_id\": \"no available games\"}, ";
         }
         
         output += "{}]}";
