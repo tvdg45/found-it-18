@@ -22,8 +22,7 @@ public class Load_Game {
     @RequestMapping(method = RequestMethod.POST)
     String home(
             @RequestParam(value = "game_id", defaultValue = "") String game_id,
-            @RequestParam(value = "player_session", defaultValue = "") String player_session,
-            @RequestParam(value = "load_game", defaultValue = "") String load_game
+            @RequestParam(value = "player_session", defaultValue = "") String player_session
     ) {
         
         Connection use_open_connection;
