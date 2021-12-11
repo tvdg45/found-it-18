@@ -86,6 +86,26 @@ public abstract class Load_Game {
         }
     }
     
+    private static void create_new_tic_tac_toe_player_turns_table() {
+        
+        try {
+            
+            PreparedStatement create_statement = connection.prepareStatement(
+                    
+                    "CREATE TABLE company_tic_tac_toe_player_turns (row_id INT NOT NULL, " +
+                            "player_id TEXT NOT NULL, game_id TEXT NOT NULL, player_has_turn TEXT NOT NULL, " +
+                            "date_received TEXT NOT NULL, time_received TEXT NOT NULL, " +
+                            "PRIMARY KEY (row_id)) ENGINE = MYISAM;");
+            
+            create_statement.execute();
+        } catch (SQLException e) {
+
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_player_turns' " +
+                    "table was not created because it already exists.  " +
+                    "This is not necessarily an error.");
+        }
+    }
+    
     private static void create_new_game_spaces_table() {
         
         try {
@@ -322,6 +342,173 @@ public abstract class Load_Game {
         
         output.add(player_full_name);
         output.add(player_chosen_game_piece);
+        
+        return output;
+    }
+    
+    //Get game information on player active session.
+    protected static ArrayList<ArrayList<String>> search_game_player_information() {
+        
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
+        
+        ArrayList<String> player_id = new ArrayList<>();
+        ArrayList<String> player_full_name = new ArrayList<>();
+        ArrayList<String> player_chosen_game_piece = new ArrayList<>();
+        
+        int players_count = 0;
+        
+        PreparedStatement select_statement;
+        ResultSet select_results;
+        
+        try {
+            
+            select_statement = connection.prepareStatement("SELECT row_id, player_full_name, player_chosen_game_piece " +
+                    "FROM company_tic_tac_toe_players WHERE game_id = ? AND player_session = ? ORDER BY row_id DESC LIMIT 1");
+            
+            select_statement.setString(1, get_game_id());
+            select_statement.setString(2, get_player_session());
+            
+            select_results = select_statement.executeQuery();
+            
+            while (select_results.next()) {
+                
+                player_id.add(select_results.getString(1));
+                player_full_name.add(select_results.getString(2));
+                player_chosen_game_piece.add(select_results.getString(3));
+                
+                players_count++;
+            }
+            
+            if (players_count != 1) {
+                
+                player_id.add("no players");
+                player_full_name.add("no players");
+                player_chosen_game_piece.add("no players");
+            }
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_players' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_players_table();
+            
+            player_id.add("fail");
+            player_full_name.add("fail");
+            player_chosen_game_piece.add("fail");
+        }
+        
+        output.add(player_id);
+        output.add(player_full_name);
+        output.add(player_chosen_game_piece);
+        
+        return output;
+    }
+    
+    //Get game information on both players.
+    protected static ArrayList<ArrayList<String>> search_game_players() {
+        
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
+        
+        ArrayList<String> player_id = new ArrayList<>();
+        ArrayList<String> player_full_name = new ArrayList<>();
+        ArrayList<String> player_chosen_game_piece = new ArrayList<>();
+        
+        int players_count = 0;
+        
+        PreparedStatement select_statement;
+        ResultSet select_results;
+        
+        try {
+            
+            select_statement = connection.prepareStatement("SELECT row_id, player_full_name, player_chosen_game_piece " +
+                    "FROM company_tic_tac_toe_players WHERE game_id = ? ORDER BY row_id DESC LIMIT 2");
+            
+            select_statement.setString(1, get_game_id());
+            
+            select_results = select_statement.executeQuery();
+            
+            while (select_results.next()) {
+                
+                player_id.add(select_results.getString(1));
+                player_full_name.add(select_results.getString(2));
+                player_chosen_game_piece.add(select_results.getString(3));
+                
+                players_count++;
+            }
+            
+            if (players_count != 2) {
+                
+                player_id.add("no players");
+                player_full_name.add("no players");
+                player_chosen_game_piece.add("no players");
+            }
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_players' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_players_table();
+            
+            player_id.add("fail");
+            player_full_name.add("fail");
+            player_chosen_game_piece.add("fail");
+        }
+        
+        output.add(player_id);
+        output.add(player_full_name);
+        output.add(player_chosen_game_piece);
+        
+        return output;
+    }
+    
+    //Get game information on both players.
+    protected static ArrayList<ArrayList<String>> search_game_players_whose_turn() {
+        
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
+        
+        ArrayList<String> player_id = new ArrayList<>();
+        ArrayList<String> player_has_turn = new ArrayList<>();
+        
+        int players_count = 0;
+        
+        PreparedStatement select_statement;
+        ResultSet select_results;
+        
+        try {
+            
+            select_statement = connection.prepareStatement("SELECT player_id, player_has_turn " +
+                    "FROM company_tic_tac_toe_player_turns WHERE game_id = ? ORDER BY row_id DESC LIMIT 2");
+            
+            select_statement.setString(1, get_game_id());
+            
+            select_results = select_statement.executeQuery();
+            
+            while (select_results.next()) {
+                
+                player_id.add(select_results.getString(1));
+                player_has_turn.add(select_results.getString(2));
+                
+                players_count++;
+            }
+            
+            if (players_count != 2) {
+                
+                player_id.add("no players");
+                player_has_turn.add("no players");
+            }
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_player_turns' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_player_turns_table();
+            
+            player_id.add("fail");
+            player_has_turn.add("fail");
+        }
+        
+        output.add(player_id);
+        output.add(player_has_turn);
         
         return output;
     }
