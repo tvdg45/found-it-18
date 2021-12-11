@@ -73,6 +73,9 @@ public class Control_Load_Game extends models.Load_Game {
         
         if (is_game_accessible()) {
             
+            Show_Loaded_Game.game_player_information = search_game_player_information();
+            Show_Loaded_Game.game_players = search_game_players();
+            Show_Loaded_Game.game_players_whose_turn = search_game_players_whose_turn();
             Show_Loaded_Game.occupied_game_spaces = search_occupied_game_spaces();
             
             output = Show_Loaded_Game.show_loaded_game();
