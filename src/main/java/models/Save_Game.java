@@ -625,13 +625,16 @@ public abstract class Save_Game {
             
             insert_statement.executeBatch();
             
+LOGGER.log(Level.INFO, "The 'company_game_spaces' " +
+                    "table is corrupt or does not exist c");
+            
             output = "success";
         } catch (SQLException e) {
             
             LOGGER.log(Level.INFO, "The 'company_game_spaces' " +
                     "table is corrupt or does not exist");
             
-            create_new_game_spaces_table();
+            //create_new_game_spaces_table();
             
             output = "fail";
         }
