@@ -151,7 +151,7 @@ public class Control_Save_Game extends models.Save_Game {
                 
                 search_game_players = search_game_players();
                 
-LOGGER.log(Level.INFO, search_game_players.get(0).get(0));
+LOGGER.log(Level.INFO, search_game_players.get(0).get(1));
                 
                 if (!(search_game_players.get(0).get(0).equals("no player found")
                         || search_game_players.get(0).get(0).equals("fail"))) {
