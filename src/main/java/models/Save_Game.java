@@ -598,8 +598,6 @@ public abstract class Save_Game {
         output.add(each_player_full_name);
         output.add(each_player_chosen_game_piece);
         
-        LOGGER.log(Level.INFO, output.get(0).get(0) + " " + output.get(1).get(0));
-        
         return output;
     }
     
