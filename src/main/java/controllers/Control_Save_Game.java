@@ -164,9 +164,11 @@ LOGGER.log(Level.INFO, search_game_players.get(0).get(0));
                     
                     if (add_game_piece().equals("success")) {
                         
+                        LOGGER.log(Level.INFO, "yeah");
                         output = "success";
                     } else {
                         
+                        LOGGER.log(Level.INFO, "no");
                         output = "fail";
                     }
                 } else {
