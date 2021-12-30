@@ -173,10 +173,12 @@ LOGGER.log(Level.INFO, search_game_players.get(0).get(0));
                     }
                 } else {
                     
+                    LOGGER.log(Level.INFO, "sure");
                     output = "fail";
                 }
             } catch (Exception e) {
                 
+                LOGGER.log(Level.INFO, "why");
                 output = "fail";
             }
         }
