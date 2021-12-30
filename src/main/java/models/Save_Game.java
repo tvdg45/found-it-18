@@ -562,7 +562,7 @@ public abstract class Save_Game {
         
         try {
             
-            select_statement = connection.prepareStatement("SELECT player_full_name, player_chosen_game_piece" +
+            select_statement = connection.prepareStatement("SELECT player_full_name, player_chosen_game_piece " +
                     "FROM company_tic_tac_toe_players WHERE game_id = ? AND player_session = ? " +
                     "ORDER BY row_id ASC LIMIT 1");
             
