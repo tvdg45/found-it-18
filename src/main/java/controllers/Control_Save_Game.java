@@ -4,11 +4,9 @@ package controllers;
 import java.util.ArrayList;
 
 import java.sql.Connection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Control_Save_Game extends models.Save_Game {
-    public static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    
     //global variables
     public static Connection use_connection;
     public static String game_id;
@@ -151,8 +149,6 @@ public class Control_Save_Game extends models.Save_Game {
                 
                 search_game_players = search_game_players();
                 
-LOGGER.log(Level.INFO, search_game_players.get(0).size() + "");
-                
                 if (!(search_game_players.get(0).get(0).equals("no player found")
                         || search_game_players.get(0).get(0).equals("fail"))) {
                     
@@ -164,21 +160,17 @@ LOGGER.log(Level.INFO, search_game_players.get(0).size() + "");
                     
                     if (add_game_piece().equals("success")) {
                         
-                        LOGGER.log(Level.INFO, "yeah");
                         output = "success";
                     } else {
                         
-                        LOGGER.log(Level.INFO, "no");
                         output = "fail";
                     }
                 } else {
                     
-                    LOGGER.log(Level.INFO, "sure");
                     output = "fail";
                 }
             } catch (Exception e) {
                 
-                LOGGER.log(Level.INFO, e.getMessage());
                 output = "fail";
             }
         }
