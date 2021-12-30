@@ -585,6 +585,8 @@ LOGGER.log(Level.INFO, select_results.getString(1) + " " + select_results.getStr
                 
                 each_player_full_name.add("no player found");
                 each_player_chosen_game_piece.add("no player found");
+                
+LOGGER.log(Level.INFO, "no player");
             }
         } catch (SQLException e) {
             
