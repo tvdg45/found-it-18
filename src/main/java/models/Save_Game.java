@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 public abstract class Save_Game {
     
-    private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    public static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     
     public static Connection connection;
     
@@ -597,6 +597,8 @@ public abstract class Save_Game {
         
         output.add(each_player_full_name);
         output.add(each_player_chosen_game_piece);
+        
+        LOGGER.log(Level.INFO, output.get(0).get(0) + " " + output.get(0).get(1));
         
         return output;
     }
