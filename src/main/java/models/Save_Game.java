@@ -576,6 +576,8 @@ public abstract class Save_Game {
                 each_player_full_name.add(select_results.getString(1));
                 each_player_chosen_game_piece.add(select_results.getString(2));
                 
+LOGGER.log(Level.INFO, select_results.getString(1) + " " + select_results.getString(2));
+                
                 players_selected_count++;
             }
             
