@@ -157,7 +157,7 @@ LOGGER.log(Level.INFO, search_game_players.get(0).size() + "");
                         || search_game_players.get(0).get(0).equals("fail"))) {
                     
                     set_player_full_name(search_game_players.get(0).get(0));
-                    set_player_chosen_game_piece(search_game_players.get(0).get(1));
+                    set_player_chosen_game_piece(search_game_players.get(1).get(0));
                     set_player_chosen_game_space(player_chosen_game_space);
                     set_date_received(date_received);
                     set_time_received(time_received);
