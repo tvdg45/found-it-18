@@ -576,8 +576,6 @@ public abstract class Save_Game {
                 each_player_full_name.add(select_results.getString(1));
                 each_player_chosen_game_piece.add(select_results.getString(2));
                 
-LOGGER.log(Level.INFO, select_results.getString(1) + " " + select_results.getString(2));
-                
                 players_selected_count++;
             }
             
@@ -585,8 +583,6 @@ LOGGER.log(Level.INFO, select_results.getString(1) + " " + select_results.getStr
                 
                 each_player_full_name.add("no player found");
                 each_player_chosen_game_piece.add("no player found");
-                
-LOGGER.log(Level.INFO, "no player");
             }
         } catch (SQLException e) {
             
