@@ -178,7 +178,7 @@ LOGGER.log(Level.INFO, search_game_players.get(0).get(0));
                 }
             } catch (Exception e) {
                 
-                LOGGER.log(Level.INFO, "why");
+                LOGGER.log(Level.INFO, e.getMessage());
                 output = "fail";
             }
         }
