@@ -153,7 +153,8 @@ public class Control_Save_Game extends models.Save_Game {
                 
                 if (!(search_game_players.get(0).get(0).equals("no player found")
                         || search_game_players.get(0).get(0).equals("fail")
-                        || search_game_players_whose_turn.get(0).size() != 2)) {
+                        || search_game_players_whose_turn.get(0).get(0).equals("fail")
+                        || search_game_players_whose_turn.get(0).get(0).equals("no players"))) {
                     
                     set_player_full_name(search_game_players.get(0).get(0));
                     set_player_chosen_game_piece(search_game_players.get(1).get(0));
