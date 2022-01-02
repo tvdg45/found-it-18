@@ -21,6 +21,7 @@ public class Control_Save_Game extends models.Save_Game {
     public static String join_game;
     public static String add_game_piece;
     public static ArrayList<ArrayList<String>> search_game_players;
+    public static ArrayList<ArrayList<String>> search_game_players_whose_turn;
     
     public static String control_add_game() {
         
@@ -148,9 +149,11 @@ public class Control_Save_Game extends models.Save_Game {
                 set_player_session(player_session);
                 
                 search_game_players = search_game_players();
+                search_game_players_whose_turn = search_game_players_whose_turn();
                 
                 if (!(search_game_players.get(0).get(0).equals("no player found")
-                        || search_game_players.get(0).get(0).equals("fail"))) {
+                        || search_game_players.get(0).get(0).equals("fail")
+                        || search_game_players_whose_turn.get(0).size() != 2)) {
                     
                     set_player_full_name(search_game_players.get(0).get(0));
                     set_player_chosen_game_piece(search_game_players.get(1).get(0));
