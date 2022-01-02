@@ -545,12 +545,13 @@ public abstract class Save_Game {
                 use_player_id.add(select_results.getString(1));
                 use_player_has_turn.add(select_results.getString(2));
                 
-LOGGER.log(Level.INFO, "have turn " + select_results.getString(2));
-                
                 players_count++;
             }
             
             if (players_count != 2) {
+                
+                use_player_id.clear();
+                use_player_has_turn.clear();
                 
                 use_player_id.add("no players");
                 use_player_has_turn.add("no players");
