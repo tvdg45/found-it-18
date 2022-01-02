@@ -518,6 +518,58 @@ public abstract class Save_Game {
         return output;
     }
     
+    //Get game information on both players.
+    protected static ArrayList<ArrayList<String>> search_game_players_whose_turn() {
+        
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
+        
+        ArrayList<String> use_player_id = new ArrayList<>();
+        ArrayList<String> use_player_has_turn = new ArrayList<>();
+        
+        int players_count = 0;
+        
+        PreparedStatement select_statement;
+        ResultSet select_results;
+        
+        try {
+            
+            select_statement = connection.prepareStatement("SELECT player_id, player_has_turn " +
+                    "FROM company_tic_tac_toe_player_turns WHERE game_id = ? ORDER BY row_id DESC LIMIT 2");
+            
+            select_statement.setString(1, String.valueOf(get_game_id()));
+            
+            select_results = select_statement.executeQuery();
+            
+            while (select_results.next()) {
+                
+                use_player_id.add(select_results.getString(1));
+                use_player_has_turn.add(select_results.getString(2));
+                
+                players_count++;
+            }
+            
+            if (players_count != 2) {
+                
+                use_player_id.add("no players");
+                use_player_has_turn.add("no players");
+            }
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_player_turns' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_player_turns_table();
+            
+            use_player_id.add("fail");
+            use_player_has_turn.add("fail");
+        }
+        
+        output.add(use_player_id);
+        output.add(use_player_has_turn);
+        
+        return output;
+    }
+    
     protected static String change_player_has_turn_status() {
         
         String output;
