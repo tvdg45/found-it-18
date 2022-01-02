@@ -164,7 +164,7 @@ public class Control_Save_Game extends models.Save_Game {
                     
                     if (add_game_piece().equals("success")) {
                         
-                        output = "success";
+                        output = search_game_players_whose_turn.get(0).get(0);
                     } else {
                         
                         output = "fail";
