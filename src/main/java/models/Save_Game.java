@@ -221,7 +221,7 @@ public abstract class Save_Game {
         try {
             
             PreparedStatement prepared_statement = connection.prepareStatement("SELECT row_id FROM " +
-                    "company_game_spaces ORDER BY row_id DESC LIMIT 1");
+                    "company_tic_tac_toe_game_spaces ORDER BY row_id DESC LIMIT 1");
             
             ResultSet select_results = prepared_statement.executeQuery();
             
@@ -310,7 +310,7 @@ public abstract class Save_Game {
             
             PreparedStatement create_statement = connection.prepareStatement(
                     
-                    "CREATE TABLE company_game_spaces (row_id INT NOT NULL, game_id TEXT NOT NULL, " +
+                    "CREATE TABLE company_tic_tac_toe_game_spaces (row_id INT NOT NULL, game_id TEXT NOT NULL, " +
                             "player_full_name TEXT NOT NULL, player_chosen_game_piece TEXT NOT NULL, " +
                             "player_chosen_game_space TEXT NOT NULL, player_session TEXT NOT NULL, " +
                             "date_received TEXT NOT NULL, time_received TEXT NOT NULL, " +
@@ -319,7 +319,7 @@ public abstract class Save_Game {
             create_statement.execute();
         } catch (SQLException e) {
 
-            LOGGER.log(Level.INFO, "The 'company_game_spaces' " +
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_game_spaces' " +
                     "table was not created because it already exists.  " +
                     "This is not necessarily an error.");
         }
@@ -609,7 +609,7 @@ public abstract class Save_Game {
         try {
             
             PreparedStatement insert_statement = connection.prepareStatement("INSERT INTO " +
-                    "company_game_spaces (row_id, game_id, player_full_name, player_chosen_game_piece, player_chosen_game_space, " +
+                    "company_tic_tac_toe_game_spaces (row_id, game_id, player_full_name, player_chosen_game_piece, player_chosen_game_space, " +
                     "player_session, date_received, time_received) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
             
             insert_statement.setInt(1, generate_game_space_id());
@@ -628,7 +628,7 @@ public abstract class Save_Game {
             output = "success";
         } catch (SQLException e) {
             
-            LOGGER.log(Level.INFO, "The 'company_game_spaces' " +
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_game_spaces' " +
                     "table is corrupt or does not exist");
             
             create_new_game_spaces_table();

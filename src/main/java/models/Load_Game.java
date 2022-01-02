@@ -112,7 +112,7 @@ public abstract class Load_Game {
             
             PreparedStatement create_statement = connection.prepareStatement(
                     
-                    "CREATE TABLE company_game_spaces (row_id INT NOT NULL, game_id TEXT NOT NULL, " +
+                    "CREATE TABLE company_tic_tac_toe_game_spaces (row_id INT NOT NULL, game_id TEXT NOT NULL, " +
                             "player_full_name TEXT NOT NULL, player_chosen_game_piece TEXT NOT NULL, " +
                             "player_chosen_game_space TEXT NOT NULL, player_session TEXT NOT NULL, " +
                             "date_received TEXT NOT NULL, time_received TEXT NOT NULL, " +
@@ -121,7 +121,7 @@ public abstract class Load_Game {
             create_statement.execute();
         } catch (SQLException e) {
 
-            LOGGER.log(Level.INFO, "The 'company_game_spaces' " +
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_game_spaces' " +
                     "table was not created because it already exists.  " +
                     "This is not necessarily an error.");
         }
@@ -581,7 +581,7 @@ public abstract class Load_Game {
         try {
             
             select_statement = connection.prepareStatement("SELECT game_id, player_chosen_game_piece, " +
-                    "player_chosen_game_space, player_session FROM company_game_spaces " +
+                    "player_chosen_game_space, player_session FROM company_tic_tac_toe_game_spaces " +
                     "WHERE game_id = ? ORDER BY row_id ASC");
             
             select_statement.setString(1, get_game_id());
@@ -607,7 +607,7 @@ public abstract class Load_Game {
             }
         } catch (SQLException e) {
             
-            LOGGER.log(Level.INFO, "The 'company_game_spaces' " +
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_game_spaces' " +
                     "table is corrupt or does not exist");
             
             create_new_game_spaces_table();
