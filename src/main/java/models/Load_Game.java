@@ -493,6 +493,9 @@ public abstract class Load_Game {
             
             if (players_count != 2) {
                 
+                player_id.clear();
+                player_has_turn.clear();
+                
                 player_id.add("no players");
                 player_has_turn.add("no players");
             }
