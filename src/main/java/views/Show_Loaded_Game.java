@@ -15,6 +15,8 @@ public class Show_Loaded_Game {
     public static ArrayList<ArrayList<String>> game_players = new ArrayList<>();
     public static ArrayList<ArrayList<String>> game_players_whose_turn = new ArrayList<>();
     public static ArrayList<ArrayList<String>> occupied_game_spaces = new ArrayList<>();
+    public static ArrayList<ArrayList<String>> instant_chat_messages = new ArrayList<>();
+    public static ArrayList<String> all_games = new ArrayList<>();
     
     public static String show_available_games() {
         
@@ -135,6 +137,7 @@ public class Show_Loaded_Game {
         int players_per_game = 0;
         int game_player_turns = 0;
         int game_spaces_taken = 0;
+        int instant_chat_message_count = 0;
         
         find.add("<script");
         find.add("<style");
@@ -242,6 +245,32 @@ public class Show_Loaded_Game {
                     "\"player_session\": \"no game spaces occupied\"}, ";
         }
         
+        output += "{}], ";
+        output += "\"chat_messages\": [";
+        
+        for (int i = 0; i < instant_chat_messages.get(0).size(); i++) {
+            
+            output += "{\"player_full_name\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(0).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\", \"player_message\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(1).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\", \"date_received\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(2).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\", \"time_received\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(3).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\"}, ";
+            
+            instant_chat_message_count++;
+        }
+        
+        if (instant_chat_message_count == 0) {
+            
+            output += "{\"player_full_name\": \"no message\", " +
+                    "\"player_message\": \"no message\", " +
+                    "\"date_received\": \"no message\", " +
+                    "\"time_received\": \"no message\"}, ";
+        }
+        
         output += "{}]}";
         
         output = output.replace(", {}", ""); 
@@ -265,7 +294,95 @@ public class Show_Loaded_Game {
         output += "{\"game_id\": \"no game spaces occupied\", " +
                 "\"player_chosen_game_piece\": \"no game spaces occupied\", " +
                 "\"player_chosen_game_space\": \"no game spaces occupied\", " +
-                "\"player_session\": \"no game spaces occupied\"}]}";
+                "\"player_session\": \"no game spaces occupied\"}], ";
+        output += "\"chat_messages\": [";
+        output += "{\"player_full_name\": \"no message\", " +
+                "\"player_message\": \"no message\", " +
+                "\"date_received\": \"no message\", " +
+                "\"time_received\": \"no message\"}]}";
+        
+        return output;
+    }
+    
+    public static String show_all_chat_messages() {
+        
+        String output = "";
+        int instant_chat_message_count = 0;
+        
+        ArrayList<String> find = new ArrayList<>();
+        ArrayList<String> replace = new ArrayList<>();
+        
+        find.add("<script");
+        find.add("<style");
+        find.add("\"");
+        find.add("'");
+        find.add("<br />");
+        find.add("<br>");
+        find.add("<div>");
+        find.add("</div>");
+        
+        replace.add("&lt;script");
+        replace.add("&lt;style");
+        replace.add("&quot;");
+        replace.add("&apos;");
+        replace.add(" ");
+        replace.add("");
+        replace.add("");
+        replace.add("");
+        
+        for (int i = 0; i < instant_chat_messages.get(0).size(); i++) {
+            
+            output += "{\"game_id\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(0).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\", \"player_full_name\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(1).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\", \"player_message\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(2).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\", \"date_received\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(3).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\", \"time_received\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(4).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\"}, ";
+            
+            instant_chat_message_count++;
+        }
+        
+        if (instant_chat_message_count == 0) {
+            
+            output += "{\"game_id\": \"no message\", " +
+                    "\"player_full_name\": \"no message\", " +
+                    "\"player_message\": \"no message\", " +
+                    "\"date_received\": \"no message\", " +
+                    "\"time_received\": \"no message\"}, ";
+        }
+        
+        output += "{}";
+        
+        output = output.replace(", {}", ""); 
+        
+        return output;
+    }
+    
+    public static String show_all_games() {
+        
+        String output = "";
+        int game_count = 0;
+        
+        for (int i = 0; i < all_games.size(); i++) {
+            
+            output += "{\"game_id\": \"" + all_games.get(i) + "\"}, ";
+            
+            game_count++;
+        }
+        
+        if (game_count == 0) {
+            
+            output += "{\"game_id\": \"0\"}, ";
+        }
+        
+        output += "{}";
+        
+        output = output.replace(", {}", "");
         
         return output;
     }
