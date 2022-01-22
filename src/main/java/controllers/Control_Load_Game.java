@@ -77,6 +77,7 @@ public class Control_Load_Game extends models.Load_Game {
             Show_Loaded_Game.game_players = search_game_players();
             Show_Loaded_Game.game_players_whose_turn = search_game_players_whose_turn();
             Show_Loaded_Game.occupied_game_spaces = search_occupied_game_spaces();
+            Show_Loaded_Game.instant_chat_messages = search_instant_chat_messages();
             
             output = Show_Loaded_Game.show_loaded_game();
         } else {
