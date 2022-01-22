@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Object[] sources = new Object[7];
+        Object[] sources = new Object[10];
         
         sources[0] = Directory_Hider.class;
 		sources[1] = apps.Add_Game.class;
@@ -15,6 +15,9 @@ public class Main {
         sources[4] = apps.Load_Game.class;
 		sources[5] = apps.Search_Available_Games.class;
 		sources[6] = apps.Search_Other_Player.class;
+		sources[7] = apps.Add_Chat_Message.class;
+		sources[8] = apps.Admin_Extract_Chat_Messages.class;
+		sources[9] = apps.Admin_Extract_Chat_Messages.class;
 		
         SpringApplication.run(sources, args);
     }
