@@ -127,6 +127,27 @@ public abstract class Load_Game {
         }
     }
     
+    private static void create_new_tic_tac_toe_chat_messages_table() {
+        
+        try {
+            
+            PreparedStatement create_statement = connection.prepareStatement(
+                    
+                    "CREATE TABLE company_tic_tac_toe_chat_messages (row_id INT NOT NULL, " +
+                            "player_session TEXT NOT NULL, player_full_name TEXT NOT NULL, " +
+                            "player_message TEXT NOT NULL, game_id TEXT NOT NULL, " +
+                            "date_received TEXT NOT NULL, time_received TEXT NOT NULL, " +
+                            "PRIMARY KEY (row_id)) ENGINE = MYISAM;");
+            
+            create_statement.execute();
+        } catch (SQLException e) {
+
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_chat_messages' " +
+                    "table was not created because it already exists.  " +
+                    "This is not necessarily an error.");
+        }
+    }
+    
     protected static ArrayList<String> search_current_game() {
         
         ArrayList<String> output = new ArrayList<>();
@@ -626,6 +647,69 @@ public abstract class Load_Game {
         output.add(each_player_chosen_game_space);
         output.add(each_player_session);
         
+        return output;
+    }
+    
+    //Search all chat messages relating to your game.
+    protected static ArrayList<ArrayList<String>> search_instant_chat_messages() {
+        
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
+        
+        ArrayList<String> player_full_name = new ArrayList<>();
+        ArrayList<String> player_message = new ArrayList<>();
+        ArrayList<String> date_received = new ArrayList<>();
+        ArrayList<String> time_received = new ArrayList<>();
+        
+        int chat_message_count = 0;
+        
+        PreparedStatement select_statement;
+        ResultSet select_results;
+        
+        try {
+            
+            select_statement = connection.prepareStatement("SELECT player_full_name, player_message, " +
+                    "date_received, time_received FROM company_tic_tac_toe_chat_messages " + 
+                    "WHERE game_id = ? ORDER BY row_id DESC");
+            
+            select_statement.setString(1, get_game_id());
+            
+            select_results = select_statement.executeQuery();
+            
+            while (select_results.next()) {
+                
+                player_full_name.add(select_results.getString(1));
+                player_message.add(select_results.getString(2));
+                date_received.add(select_results.getString(3));
+                time_received.add(select_results.getString(4));
+                
+                chat_message_count++;
+            }
+            
+            if (chat_message_count == 0) {
+                
+                player_full_name.add("no message");
+                player_message.add("no message");
+                date_received.add("no message");
+                time_received.add("no message");
+            }
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_chat_messages' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_chat_messages_table();
+            
+            player_full_name.add("fail");
+            player_message.add("fail");
+            date_received.add("fail");
+            time_received.add("fail");
+        }
+        
+        output.add(player_full_name);
+        output.add(player_message);
+        output.add(date_received);
+        output.add(time_received);
+                
         return output;
     }
 }
