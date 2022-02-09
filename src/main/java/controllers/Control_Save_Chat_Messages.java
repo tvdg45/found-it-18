@@ -37,7 +37,9 @@ public class Control_Save_Chat_Messages extends models.Save_Chat_Messages {
                 
                 if (add_chat_message().equals("success")) {
                     
-                    output = "success";
+                    Show_Loaded_Game.instant_chat_messages = player_search_instant_chat_messages();
+                    
+                    output = Show_Loaded_Game.show_all_chat_messages();
                 } else {
                     
                     output = "fail";
