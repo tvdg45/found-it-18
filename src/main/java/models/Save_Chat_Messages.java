@@ -218,7 +218,7 @@ public abstract class Save_Chat_Messages {
             
             select_statement = connection.prepareStatement("SELECT game_id, player_full_name, player_message, " +
                     "date_received, time_received FROM company_tic_tac_toe_chat_messages " + 
-                    "WHERE game_id = ? ORDER BY row_id DESC");
+                    "WHERE game_id = ? ORDER BY row_id ASC");
             
             select_statement.setString(1, String.valueOf(get_game_id()));
             
@@ -285,7 +285,7 @@ public abstract class Save_Chat_Messages {
         try {
             
             select_statement = connection.prepareStatement("SELECT game_id, player_full_name, player_message, " +
-                    "date_received, time_received FROM company_tic_tac_toe_chat_messages ORDER BY row_id DESC");
+                    "date_received, time_received FROM company_tic_tac_toe_chat_messages ORDER BY row_id ASC");
             
             select_results = select_statement.executeQuery();
             
@@ -344,7 +344,7 @@ public abstract class Save_Chat_Messages {
         try {
             
             select_statement = connection.prepareStatement("SELECT row_id " +
-                    "FROM company_tic_tac_toe_games ORDER BY row_id DESC");
+                    "FROM company_tic_tac_toe_games ORDER BY row_id ASC");
             
             select_results = select_statement.executeQuery();
             

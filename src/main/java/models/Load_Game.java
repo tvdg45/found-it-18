@@ -670,7 +670,7 @@ public abstract class Load_Game {
             
             select_statement = connection.prepareStatement("SELECT game_id, player_full_name, player_message, " +
                     "date_received, time_received FROM company_tic_tac_toe_chat_messages " + 
-                    "WHERE game_id = ? ORDER BY row_id DESC");
+                    "WHERE game_id = ? ORDER BY row_id ASC");
             
             select_statement.setString(1, get_game_id());
             
