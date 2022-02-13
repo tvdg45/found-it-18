@@ -250,14 +250,16 @@ public class Show_Loaded_Game {
         
         for (int i = 0; i < instant_chat_messages.get(0).size(); i++) {
             
-            output += "{\"player_full_name\": \"" +
+            output += "{\"game_id\": \"" +
                     Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(0).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
-                    "\", \"player_message\": \"" +
+                    "\", \"player_full_name\": \"" +
                     Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(1).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
-                    "\", \"date_received\": \"" +
+                    "\", \"player_message\": \"" +
                     Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(2).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
-                    "\", \"time_received\": \"" +
+                    "\", \"date_received\": \"" +
                     Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(3).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\", \"time_received\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(4).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
                     "\"}, ";
             
             instant_chat_message_count++;
@@ -265,7 +267,8 @@ public class Show_Loaded_Game {
         
         if (instant_chat_message_count == 0) {
             
-            output += "{\"player_full_name\": \"no message\", " +
+            output += "{\"game_id\": \"no message\", " +
+                    "\"player_full_name\": \"no message\", " +
                     "\"player_message\": \"no message\", " +
                     "\"date_received\": \"no message\", " +
                     "\"time_received\": \"no message\"}, ";
