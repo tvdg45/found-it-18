@@ -203,6 +203,7 @@ public abstract class Save_Chat_Messages {
         
         ArrayList<ArrayList<String>> output = new ArrayList<>();
         
+        ArrayList<String> use_game_id = new ArrayList<>();
         ArrayList<String> use_player_full_name = new ArrayList<>();
         ArrayList<String> use_player_message = new ArrayList<>();
         ArrayList<String> use_date_received = new ArrayList<>();
@@ -215,7 +216,7 @@ public abstract class Save_Chat_Messages {
         
         try {
             
-            select_statement = connection.prepareStatement("SELECT player_full_name, player_message, " +
+            select_statement = connection.prepareStatement("SELECT game_id, player_full_name, player_message, " +
                     "date_received, time_received FROM company_tic_tac_toe_chat_messages " + 
                     "WHERE game_id = ? ORDER BY row_id DESC");
             
@@ -225,16 +226,18 @@ public abstract class Save_Chat_Messages {
             
             while (select_results.next()) {
                 
-                use_player_full_name.add(select_results.getString(1));
-                use_player_message.add(select_results.getString(2));
-                use_date_received.add(select_results.getString(3));
-                use_time_received.add(select_results.getString(4));
+                use_game_id.add(select_results.getString(1));
+                use_player_full_name.add(select_results.getString(2));
+                use_player_message.add(select_results.getString(3));
+                use_date_received.add(select_results.getString(4));
+                use_time_received.add(select_results.getString(5));
                 
                 chat_message_count++;
             }
             
             if (chat_message_count == 0) {
                 
+                use_game_id.add("no message");
                 use_player_full_name.add("no message");
                 use_player_message.add("no message");
                 use_date_received.add("no message");
@@ -247,12 +250,14 @@ public abstract class Save_Chat_Messages {
             
             create_new_tic_tac_toe_chat_messages_table();
             
+            use_game_id.add("fail");
             use_player_full_name.add("fail");
             use_player_message.add("fail");
             use_date_received.add("fail");
             use_time_received.add("fail");
         }
         
+        output.add(use_game_id);
         output.add(use_player_full_name);
         output.add(use_player_message);
         output.add(use_date_received);

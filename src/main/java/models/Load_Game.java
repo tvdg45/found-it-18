@@ -655,6 +655,7 @@ public abstract class Load_Game {
         
         ArrayList<ArrayList<String>> output = new ArrayList<>();
         
+        ArrayList<String> use_game_id = new ArrayList<>();
         ArrayList<String> player_full_name = new ArrayList<>();
         ArrayList<String> player_message = new ArrayList<>();
         ArrayList<String> date_received = new ArrayList<>();
@@ -667,7 +668,7 @@ public abstract class Load_Game {
         
         try {
             
-            select_statement = connection.prepareStatement("SELECT player_full_name, player_message, " +
+            select_statement = connection.prepareStatement("SELECT game_id, player_full_name, player_message, " +
                     "date_received, time_received FROM company_tic_tac_toe_chat_messages " + 
                     "WHERE game_id = ? ORDER BY row_id DESC");
             
@@ -677,16 +678,18 @@ public abstract class Load_Game {
             
             while (select_results.next()) {
                 
-                player_full_name.add(select_results.getString(1));
-                player_message.add(select_results.getString(2));
-                date_received.add(select_results.getString(3));
-                time_received.add(select_results.getString(4));
+                use_game_id.add(select_results.getString(1));
+                player_full_name.add(select_results.getString(2));
+                player_message.add(select_results.getString(3));
+                date_received.add(select_results.getString(4));
+                time_received.add(select_results.getString(5));
                 
                 chat_message_count++;
             }
             
             if (chat_message_count == 0) {
                 
+                use_game_id.add("no message");
                 player_full_name.add("no message");
                 player_message.add("no message");
                 date_received.add("no message");
@@ -699,12 +702,14 @@ public abstract class Load_Game {
             
             create_new_tic_tac_toe_chat_messages_table();
             
+            use_game_id.add("fail");
             player_full_name.add("fail");
             player_message.add("fail");
             date_received.add("fail");
             time_received.add("fail");
         }
         
+        output.add(use_game_id);
         output.add(player_full_name);
         output.add(player_message);
         output.add(date_received);
