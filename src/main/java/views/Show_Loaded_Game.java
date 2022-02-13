@@ -333,6 +333,8 @@ public class Show_Loaded_Game {
         replace.add("");
         replace.add("");
         
+        output += "[";
+        
         for (int i = 0; i < instant_chat_messages.get(0).size(); i++) {
             
             output += "{\"game_id\": \"" +
@@ -359,7 +361,7 @@ public class Show_Loaded_Game {
                     "\"time_received\": \"no message\"}, ";
         }
         
-        output += "{}";
+        output += "{}]";
         
         output = output.replace(", {}", ""); 
         
@@ -370,6 +372,8 @@ public class Show_Loaded_Game {
         
         String output = "";
         int game_count = 0;
+        
+        output += "[";
         
         for (int i = 0; i < all_games.size(); i++) {
             
@@ -383,7 +387,7 @@ public class Show_Loaded_Game {
             output += "{\"game_id\": \"0\"}, ";
         }
         
-        output += "{}";
+        output += "{}]";
         
         output = output.replace(", {}", "");
         
