@@ -16,7 +16,7 @@ public class Show_Loaded_Game {
     public static ArrayList<ArrayList<String>> game_players_whose_turn = new ArrayList<>();
     public static ArrayList<ArrayList<String>> occupied_game_spaces = new ArrayList<>();
     public static ArrayList<ArrayList<String>> instant_chat_messages = new ArrayList<>();
-    public static ArrayList<String> all_games = new ArrayList<>();
+    public static ArrayList<ArrayList<String>> all_games = new ArrayList<>();
     
     public static String show_available_games() {
         
@@ -373,18 +373,47 @@ public class Show_Loaded_Game {
         String output = "";
         int game_count = 0;
         
+        ArrayList<String> find = new ArrayList<>();
+        ArrayList<String> replace = new ArrayList<>();
+        
+        find.add("<script");
+        find.add("<style");
+        find.add("\"");
+        find.add("'");
+        find.add("<br />");
+        find.add("<br>");
+        find.add("<div>");
+        find.add("</div>");
+        
+        replace.add("&lt;script");
+        replace.add("&lt;style");
+        replace.add("&quot;");
+        replace.add("&apos;");
+        replace.add(" ");
+        replace.add("");
+        replace.add("");
+        replace.add("");
+        
         output += "[";
         
-        for (int i = 0; i < all_games.size(); i++) {
+        for (int i = 0; i < all_games.get(0).size(); i++) {
             
-            output += "{\"game_id\": \"" + all_games.get(i) + "\"}, ";
+            output += "{\"game_id\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(0).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\", \"date_received\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(1).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\", \"time_received\": \"" +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(2).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    "\"}, ";
             
             game_count++;
         }
         
         if (game_count == 0) {
             
-            output += "{\"game_id\": \"0\"}, ";
+            output += "{\"game_id\": \"0\", " +
+                    "\"date_received\": \"no game\", " +
+                    "\"time_received\": \"no game\"}, ";
         }
         
         output += "{}]";
