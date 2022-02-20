@@ -332,9 +332,13 @@ public abstract class Save_Chat_Messages {
     }
     
     //A third party server searches all games.
-    protected static ArrayList<String> search_all_games() {
+    protected static ArrayList<ArrayList<String>> search_all_games() {
         
-        ArrayList<String> output = new ArrayList<>();
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
+        
+        ArrayList<String> use_row_id = new ArrayList<>();
+        ArrayList<String> use_date_received = new ArrayList<>();
+        ArrayList<String> use_time_received = new ArrayList<>();
         
         int game_count = 0;
         
@@ -343,21 +347,25 @@ public abstract class Save_Chat_Messages {
         
         try {
             
-            select_statement = connection.prepareStatement("SELECT row_id " +
+            select_statement = connection.prepareStatement("SELECT row_id, date_received, time_received " +
                     "FROM company_tic_tac_toe_games ORDER BY row_id ASC");
             
             select_results = select_statement.executeQuery();
             
             while (select_results.next()) {
                 
-                output.add(String.valueOf(select_results.getInt(1)));
+                use_row_id.add(String.valueOf(select_results.getInt(1)));
+                use_date_received.add(select_results.getString(2));
+                use_time_received.add(select_results.getString(3));
                 
                 game_count++;
             }
             
             if (game_count == 0) {
                 
-                output.add("no game");
+                use_row_id.add("no game");
+                use_date_received.add("no game");
+                use_time_received.add("no game");
             }
         } catch (SQLException e) {
             
@@ -366,8 +374,14 @@ public abstract class Save_Chat_Messages {
             
             create_new_tic_tac_toe_games_table();
             
-            output.add("fail");
+            use_row_id.add("fail");
+            use_date_received.add("fail");
+            use_time_received.add("fail");
         }
+        
+        output.add(use_row_id);
+        output.add(use_date_received);
+        output.add(use_time_received);
         
         return output;
     }
