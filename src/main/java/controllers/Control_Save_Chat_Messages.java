@@ -10,6 +10,7 @@ public class Control_Save_Chat_Messages extends models.Save_Chat_Messages {
     //global variables
     public static Connection use_connection;
     public static String game_id;
+    public static String[] tic_tac_toe_game_id;
     public static String player_full_name;
     public static String player_message;
     public static String player_session;
@@ -86,6 +87,8 @@ public class Control_Save_Chat_Messages extends models.Save_Chat_Messages {
         if (delete_chat_messages.equals("Delete messages")) {
             
             connection = use_connection;
+            
+            set_tic_tac_toe_game_id(tic_tac_toe_game_id);
             
             if (delete_all_chat_messages().equals("success")) {
                 
