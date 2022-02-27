@@ -17,7 +17,7 @@ public class Main {
 		sources[6] = apps.Search_Other_Player.class;
 		sources[7] = apps.Add_Chat_Message.class;
 		sources[8] = apps.Admin_Extract_Chat_Messages.class;
-		sources[9] = apps.Admin_Extract_Chat_Messages.class;
+		sources[9] = apps.Admin_Delete_Chat_Messages.class;
 		
         SpringApplication.run(sources, args);
     }
