@@ -399,11 +399,11 @@ public class Show_Loaded_Game {
         for (int i = 0; i < all_games.get(0).size(); i++) {
             
             output += "{\"game_id\": \"" +
-                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(0).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(all_games.get(0).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
                     "\", \"date_received\": \"" +
-                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(1).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(all_games.get(1).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
                     "\", \"time_received\": \"" +
-                    Find_and_replace.find_and_replace(find, replace, String.valueOf(instant_chat_messages.get(2).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
+                    Find_and_replace.find_and_replace(find, replace, String.valueOf(all_games.get(2).get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
                     "\"}, ";
             
             game_count++;
