@@ -19,6 +19,7 @@ public abstract class Save_Chat_Messages {
     
     //global variables
     private static int game_id;
+    private static String[] tic_tac_toe_game_id;
     private static String player_full_name;
     private static String player_message;
     private static String player_session;
@@ -29,6 +30,11 @@ public abstract class Save_Chat_Messages {
     protected static void set_game_id(int this_game_id) {
         
         game_id = this_game_id;
+    }
+    
+    protected static void set_tic_tac_toe_game_id(String[] this_tic_tac_toe_game_id) {
+        
+        tic_tac_toe_game_id = this_tic_tac_toe_game_id;
     }
     
     protected static void set_player_full_name(String this_player_full_name) {
@@ -60,6 +66,11 @@ public abstract class Save_Chat_Messages {
     private static int get_game_id() {
         
         return game_id;
+    }
+    
+    private static String[] get_tic_tac_toe_game_id() {
+        
+        return tic_tac_toe_game_id;
     }
     
     private static String get_player_full_name() {
@@ -390,17 +401,28 @@ public abstract class Save_Chat_Messages {
     protected static String delete_all_chat_messages() {
         
         String output;
+        int records_to_delete = 0;
         
         PreparedStatement delete_statement;
 
         try {
             
             delete_statement = connection.prepareStatement("DELETE " +
-                    "FROM company_tic_tac_toe_chat_messages");
+                    "FROM company_tic_tac_toe_chat_messages WHERE game_id = ?");
             
-            delete_statement.addBatch();
+            for (int i = 0; i < get_tic_tac_toe_game_id().length; i++) {
+                
+                delete_statement.setString(1, get_tic_tac_toe_game_id()[i]);
+                    
+                delete_statement.addBatch();
+                    
+                records_to_delete++;
+            }
             
-            delete_statement.executeBatch();
+            if (records_to_delete > 0) {
+                
+                delete_statement.executeBatch();
+            }
             
             output = "success";
         } catch (SQLException e) {
@@ -420,17 +442,28 @@ public abstract class Save_Chat_Messages {
     protected static String delete_all_games() {
         
         String output;
+        int records_to_delete = 0;
         
         PreparedStatement delete_statement;
 
         try {
             
             delete_statement = connection.prepareStatement("DELETE " +
-                    "FROM company_tic_tac_toe_games");
+                    "FROM company_tic_tac_toe_games WHERE row_id = ?");
             
-            delete_statement.addBatch();
+            for (int i = 0; i < get_tic_tac_toe_game_id().length; i++) {
+                
+                delete_statement.setInt(1, Integer.valueOf(get_tic_tac_toe_game_id()[i]));
+                    
+                delete_statement.addBatch();
+                    
+                records_to_delete++;
+            }
             
-            delete_statement.executeBatch();
+            if (records_to_delete > 0) {
+                
+                delete_statement.executeBatch();
+            }
             
             output = "success";
         } catch (SQLException e) {
@@ -439,6 +472,9 @@ public abstract class Save_Chat_Messages {
                     "table is corrupt or does not exist");
             
             create_new_tic_tac_toe_games_table();
+            
+            output = "fail";
+        } catch (Exception e) {
             
             output = "fail";
         }
