@@ -26,12 +26,15 @@ public class Control_Save_Game extends models.Save_Game {
     public static String control_add_game() {
         
         String output = "";
+        int tic_tac_toe_game_id;
         
         if (add_game.equals("New game")) {
             
             connection = use_connection;
             
-            set_game_id(generate_tic_tac_toe_game_id());
+            tic_tac_toe_game_id = generate_tic_tac_toe_game_id();
+            
+            set_game_id(tic_tac_toe_game_id);
             set_date_received(date_received);
             set_time_received(time_received);
             
@@ -48,7 +51,7 @@ public class Control_Save_Game extends models.Save_Game {
                     
                     if (add_player_turn().equals("success")) {
                         
-                        output = "success";
+                        output = String.valueOf(tic_tac_toe_game_id);
                     } else {
                         
                         output = "fail";
