@@ -61,14 +61,14 @@ public class Show_Loaded_Game {
             
             if (player_session_status.equals("session found")) {
                 
-                if (players_per_game == 2 || players_per_game == 1) {
+                //if (players_per_game == 2 || players_per_game == 1) {
                     
                     output += "{\"row_id\": \"" +
                             Find_and_replace.find_and_replace(find, replace, String.valueOf(available_games.get(i)).replace("<", "&lt;").replace(">", "&gt;")) +
                             "\"}, ";
                     
                     available_games_count++;
-                }                
+                //}                
             } else {
                 
                 if (players_per_game == 1) {
