@@ -141,6 +141,8 @@ public class Control_Save_Game extends models.Save_Game {
     public static String control_add_game_piece() {
         
         String output = "";
+        ArrayList<String> change_player_has_turn = new ArrayList<>();
+        ArrayList<String> change_by_player_id = new ArrayList<>();
         
         if (add_game_piece.equals("Add game piece")) {
             
@@ -167,7 +169,20 @@ public class Control_Save_Game extends models.Save_Game {
                     
                     if (add_game_piece().equals("success")) {
                         
-                        output = "success";
+                        for (int i = 0; i < search_game_players_whose_turn.get(0).size(); i++) {
+                            
+                            if (search_game_players_whose_turn.get(1).get(i).equals("no")) {
+                                
+                                change_player_has_turn.add("yes");
+                            } else {
+                                
+                                change_player_has_turn.add("no");
+                            }
+                            
+                            change_by_player_id.add(search_game_players_whose_turn.get(0).get(i));
+                        }
+                        
+                        output = change_player_has_turn_status(change_player_has_turn, change_by_player_id);
                     } else {
                         
                         output = "fail";
