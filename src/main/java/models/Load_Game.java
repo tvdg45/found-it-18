@@ -202,7 +202,7 @@ public abstract class Load_Game {
         try {
             
             select_statement = connection.prepareStatement("SELECT row_id FROM company_tic_tac_toe_games " +
-                    "ORDER BY row_id ASC LIMIT 5");
+                    "ORDER BY row_id DESC");
             
             select_results = select_statement.executeQuery();
             
