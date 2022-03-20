@@ -573,6 +573,48 @@ public abstract class Save_Game {
         return output;
     }
     
+    //When a game piece has been added to the board that player's turn is over.  The other
+    //player gets to go.
+    protected static String change_player_has_turn_status(ArrayList<String> use_player_has_turn,
+            ArrayList<String> use_player_id) {
+        
+        String output;
+        int records_to_update = 0;
+        
+        try {
+            
+            PreparedStatement update_statement = connection.prepareStatement("UPDATE " +
+                    "company_tic_tac_toe_player_turns SET player_has_turn = ? WHERE player_id = ?");
+            
+            for (int i = 0; i < use_player_id.size(); i++) {
+                
+                update_statement.setString(1, use_player_has_turn.get(i));
+                update_statement.setString(2, use_player_id.get(i));
+                
+                update_statement.addBatch();
+            
+                records_to_update++;
+            }
+            
+            if (records_to_update > 0) {
+                
+                update_statement.executeBatch();
+            }
+            
+            output = "success";
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_player_turns' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_player_turns_table();
+            
+            output = "fail";
+        }
+        
+        return output;
+    }
+    
     protected static String change_player_has_turn_status() {
         
         String output;
