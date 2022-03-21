@@ -172,6 +172,68 @@ public abstract class Save_Chat_Messages {
         }
     }
     
+    private static void create_new_tic_tac_toe_players_table() {
+        
+        try {
+            
+            PreparedStatement create_statement = connection.prepareStatement(
+                    
+                    "CREATE TABLE company_tic_tac_toe_players (row_id INT NOT NULL, " +
+                            "player_full_name TEXT NOT NULL, player_session TEXT NOT NULL, " +
+                            "player_chosen_game_piece TEXT NOT NULL, game_id TEXT NOT NULL, " +
+                            "date_received TEXT NOT NULL, time_received TEXT NOT NULL, " +
+                            "PRIMARY KEY (row_id)) ENGINE = MYISAM;");
+            
+            create_statement.execute();
+        } catch (SQLException e) {
+
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_players' " +
+                    "table was not created because it already exists.  " +
+                    "This is not necessarily an error.");
+        }
+    }
+    
+    private static void create_new_tic_tac_toe_player_turns_table() {
+        
+        try {
+            
+            PreparedStatement create_statement = connection.prepareStatement(
+                    
+                    "CREATE TABLE company_tic_tac_toe_player_turns (row_id INT NOT NULL, " +
+                            "player_id TEXT NOT NULL, game_id TEXT NOT NULL, player_has_turn TEXT NOT NULL, " +
+                            "date_received TEXT NOT NULL, time_received TEXT NOT NULL, " +
+                            "PRIMARY KEY (row_id)) ENGINE = MYISAM;");
+            
+            create_statement.execute();
+        } catch (SQLException e) {
+
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_player_turns' " +
+                    "table was not created because it already exists.  " +
+                    "This is not necessarily an error.");
+        }
+    }
+    
+    private static void create_new_game_spaces_table() {
+        
+        try {
+            
+            PreparedStatement create_statement = connection.prepareStatement(
+                    
+                    "CREATE TABLE company_tic_tac_toe_game_spaces (row_id INT NOT NULL, game_id TEXT NOT NULL, " +
+                            "player_full_name TEXT NOT NULL, player_chosen_game_piece TEXT NOT NULL, " +
+                            "player_chosen_game_space TEXT NOT NULL, player_session TEXT NOT NULL, " +
+                            "date_received TEXT NOT NULL, time_received TEXT NOT NULL, " +
+                            "PRIMARY KEY (row_id)) ENGINE = MYISAM;");
+            
+            create_statement.execute();
+        } catch (SQLException e) {
+
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_game_spaces' " +
+                    "table was not created because it already exists.  " +
+                    "This is not necessarily an error.");
+        }
+    }
+    
     protected static String add_chat_message() {
         
         String output;
@@ -472,6 +534,138 @@ public abstract class Save_Chat_Messages {
                     "table is corrupt or does not exist");
             
             create_new_tic_tac_toe_games_table();
+            
+            output = "fail";
+        } catch (Exception e) {
+            
+            output = "fail";
+        }
+        
+        return output;
+    }
+    
+    //A third party server deletes all players.
+    protected static String delete_all_players() {
+        
+        String output;
+        int records_to_delete = 0;
+        
+        PreparedStatement delete_statement;
+
+        try {
+            
+            delete_statement = connection.prepareStatement("DELETE " +
+                    "FROM company_tic_tac_toe_players WHERE game_id = ?");
+            
+            for (int i = 0; i < get_tic_tac_toe_game_id().length; i++) {
+                
+                delete_statement.setInt(1, Integer.valueOf(get_tic_tac_toe_game_id()[i]));
+                    
+                delete_statement.addBatch();
+                    
+                records_to_delete++;
+            }
+            
+            if (records_to_delete > 0) {
+                
+                delete_statement.executeBatch();
+            }
+            
+            output = "success";
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_players' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_players_table();
+            
+            output = "fail";
+        } catch (Exception e) {
+            
+            output = "fail";
+        }
+        
+        return output;
+    }
+    
+    //A third party server deletes all player turns.
+    protected static String delete_all_player_turns() {
+        
+        String output;
+        int records_to_delete = 0;
+        
+        PreparedStatement delete_statement;
+
+        try {
+            
+            delete_statement = connection.prepareStatement("DELETE " +
+                    "FROM company_tic_tac_toe_player_turns WHERE game_id = ?");
+            
+            for (int i = 0; i < get_tic_tac_toe_game_id().length; i++) {
+                
+                delete_statement.setInt(1, Integer.valueOf(get_tic_tac_toe_game_id()[i]));
+                    
+                delete_statement.addBatch();
+                    
+                records_to_delete++;
+            }
+            
+            if (records_to_delete > 0) {
+                
+                delete_statement.executeBatch();
+            }
+            
+            output = "success";
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_player_turns' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_tic_tac_toe_player_turns_table();
+            
+            output = "fail";
+        } catch (Exception e) {
+            
+            output = "fail";
+        }
+        
+        return output;
+    }
+    
+    //A third party server deletes all game spaces.
+    protected static String delete_all_game_spaces() {
+        
+        String output;
+        int records_to_delete = 0;
+        
+        PreparedStatement delete_statement;
+
+        try {
+            
+            delete_statement = connection.prepareStatement("DELETE " +
+                    "FROM company_tic_tac_toe_game_spaces WHERE game_id = ?");
+            
+            for (int i = 0; i < get_tic_tac_toe_game_id().length; i++) {
+                
+                delete_statement.setInt(1, Integer.valueOf(get_tic_tac_toe_game_id()[i]));
+                    
+                delete_statement.addBatch();
+                    
+                records_to_delete++;
+            }
+            
+            if (records_to_delete > 0) {
+                
+                delete_statement.executeBatch();
+            }
+            
+            output = "success";
+        } catch (SQLException e) {
+            
+            LOGGER.log(Level.INFO, "The 'company_tic_tac_toe_game_spaces' " +
+                    "table is corrupt or does not exist");
+            
+            create_new_game_spaces_table();
             
             output = "fail";
         } catch (Exception e) {
