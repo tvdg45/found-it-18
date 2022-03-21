@@ -94,7 +94,25 @@ public class Control_Save_Chat_Messages extends models.Save_Chat_Messages {
                 
                 if (delete_all_games().equals("success")) {
                     
-                    output = "success";
+                    if (delete_all_players().equals("success")) {
+                        
+                        if (delete_all_player_turns().equals("success")) {
+                            
+                            if (delete_all_game_spaces().equals("success")) {
+                                
+                                output = "success";
+                            } else {
+                                
+                                output = "fail";
+                            }
+                        } else {
+                            
+                            output = "fail";
+                        }
+                    } else {
+                        
+                        output = "fail";
+                    }
                 } else {
                     
                     output = "fail";
