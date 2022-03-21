@@ -413,7 +413,7 @@ public abstract class Save_Game {
                     "company_tic_tac_toe_players (row_id, player_full_name, player_session, player_chosen_game_piece, game_id, date_received, time_received) " +
                     "VALUES(?, ?, ?, ?, ?, ?, ?)");
             
-            insert_statement.setInt(1, generate_tic_tac_toe_players_id());
+            insert_statement.setInt(1, get_player_id());
             insert_statement.setString(2, get_player_full_name());
             insert_statement.setString(3, get_player_session());
             insert_statement.setString(4, get_player_chosen_game_piece());
